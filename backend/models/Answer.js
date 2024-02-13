@@ -1,13 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
+const AnswerSchema = new mongoose.Schema({
+  answer: String,
+  questionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "questions",
+  },
+  user: Object,
+});
 
-const answerSchema = new mongoose.Schema({
-    content:{
-        type:String,
-        required:true,
-    }
-},{timestamps:true});
-
-const Answer = mongoose.model('Answer',answerSchema);
-
-module.exports = Answer;
+module.exports = mongoose.model("Answers", AnswerSchema);

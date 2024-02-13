@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const Question = require("../models/Question");
+const questionDB = require("../models/Question");
 
 router.post("/", async (req, res) => {
   console.log(req.body);
 
   try {
-    await Question
+    await questionDB
       .create({
         questionName: req.body.questionName,
         questionUrl: req.body.questionUrl,
@@ -33,11 +33,29 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/all", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    console.log("tjis is before")
-    const allquestions = await Question.find({});
-      console.log(allquestions)
+    await questionDB
+      .aggregate([
+        {
+          $lookup: {
+            from: "answers", //collection to join
+            localField: "_id", //field from input document
+            foreignField: "questionId",
+            as: "allAnswers", //output array field
+          },
+        },
+      ])
+      .exec()
+      .then((doc) => {
+        res.status(200).send(doc);
+      })
+      .catch((error) => {
+        res.status(500).send({
+          status: false,
+          message: "Unable to get the question details",
+        });
+      });
   } catch (e) {
     res.status(500).send({
       status: false,

@@ -26,6 +26,7 @@ export default function Header() {
           
         }
        const res =  await axios.post("/api/questions",body);
+       console.log(res.data)
         if(res.data){
           setIsModalOpen(false)
           window.location.href="/"

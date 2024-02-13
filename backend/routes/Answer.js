@@ -1,27 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const Question = require("../models/Question");
-const Answer = require("../models/Answer")
-router.post("/:id", async (req, res) => {
+const answerDB = require("../models/Answer");
+
+router.post("/", async (req, res) => {
   try {
-    const {answer,user} = req.body;
-    const newAns = new Answer ({
-      content:answer,
-      user:user,
-    })
-    console.log("created the answer",newAns)
-    await newAns.save();
-    const question = await Question.find({_id:req.params.id})
-    console.log("quesetion " ,question)
-    if(question){
-      const updatedQuestion = await Question.updateOne(
-        {_id:req.params.id},
-        {$push:{answers:newAns._id}},
-        {new:true}
-      )
-     
-       .then(() => {
+    await answerDB
+      .create({
+        answer: req.body.answer,
+        questionId: req.body.questionId,
+        user: req.body.user,
+      })
+      .then(() => {
         res.status(201).send({
           status: true,
           message: "Answer added successfully",
@@ -33,8 +23,6 @@ router.post("/:id", async (req, res) => {
           message: "Bad request",
         });
       });
-    }
-
   } catch (e) {
     res.status(500).send({
       status: false,

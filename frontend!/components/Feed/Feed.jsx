@@ -9,12 +9,18 @@ export default function Feed() {
 useEffect(()=>{
   async function getPosts(){
     try {
-      await axios.get("/api/questions").then((res)=>setPost(res.data))
-      .catch((err)=>console.log("error in getting the posts"));
-      console.log(posts)
+      const data = await axios.get('http://127.0.0.1:4000/api/questions');
+      console.log('the data is ',data.data)
     } catch (error) {
-      console.log("Error in getting the posts");
+      
     }
+    // try {
+    //   await axios.get("/api/questions").then((res)=>setPost(res.data))
+    //   .catch((err)=>console.log("error in getting the posts"));
+    //   console.log(posts)
+    // } catch (error) {
+    //   console.log("Error in getting the posts");
+    // }
   }
   getPosts();
 },[])
