@@ -7,11 +7,12 @@ const QuestionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  answers: {
+  answers:[ {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Answers",
-  },
+  }
+],
   user: Object,
-});
+},{timestamps:true});
 
 module.exports = mongoose.model("Questions", QuestionSchema);

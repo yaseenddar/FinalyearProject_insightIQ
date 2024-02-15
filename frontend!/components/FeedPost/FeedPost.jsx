@@ -16,7 +16,7 @@ import axios from 'axios';
 import parser from 'html-react-parser'
 
 export default function FeedPost({post}) {
-  console.log("answers",post.answers)
+  console.log("answers",post.allAnswers)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalClose, setIsModalClose] = useState(true);
   const [answer, setAnswer] = useState("");
@@ -35,9 +35,10 @@ return <>
        try {
       const body = {
         answer: answer,
+        questionId: post._id
        
       }
-      const res = await axios.post(`/api/answers/${post._id}`,body);
+      const res = await axios.post(`/api/answers`,body);
       setIsModalOpen(false);
       window.location.href="/"
       alert("commented")
@@ -50,10 +51,10 @@ return <>
  
   }
   return (
-    <div className='post w-full'>
+    <div key={post._id} className='post w-full'>
          <div className="post__info">
         <Avatar  />
-        <h4>post.</h4>
+        <h4>username</h4>
 
         <small>
           last seen:<Lastseen date={post?.createdAt}/>
@@ -62,7 +63,7 @@ return <>
       <div className="post__body ">
         <div className="post__question flex flex-col">
           <p>{post.questionName}</p>
-          {post.questionUrl && <img className='w-[50%] items-center ' src={post.questionUrl} alt="postUrl" />}
+          {post.questionUrl && <img className='w-[50%] image_Url ' src={post.questionUrl} alt="postUrl" />}
           <button
            
             className="post__btnAnswer"
@@ -92,11 +93,11 @@ return <>
           margin: "10px 0",
         }}
       >
-        {post.answers.length}Answer(s)
+        {post.allAnswers.length}Answer(s)
       </p>
      
     
-       {post.answers.map((ans)=>(   
+       {post.allAnswers.map((ans)=>(   
           <div
           style={{
             margin: "5px 0px 0px 0px ",
@@ -138,6 +139,8 @@ return <>
                   <p>username</p>
                   <span>
                     last seen <Lastseen date={ans.createdAt}/>
+                      {console.log("dated at ",ans.createdAt)
+                    }
                   </span>
                   <p className='font-bold text-lg text-slate-9'>{parser(ans.answer)}</p>
                 </div>

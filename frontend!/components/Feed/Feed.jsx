@@ -8,19 +8,14 @@ export default function Feed() {
 
 useEffect(()=>{
   async function getPosts(){
+
     try {
-      const data = await axios.get('http://127.0.0.1:4000/api/questions');
-      console.log('the data is ',data.data)
+      const res = await axios.get("/api/questions")
+      console.log("the posts are ",res.data);
+      setPost(res.data);
     } catch (error) {
-      
+      console.log("Error in getting the posts");
     }
-    // try {
-    //   await axios.get("/api/questions").then((res)=>setPost(res.data))
-    //   .catch((err)=>console.log("error in getting the posts"));
-    //   console.log(posts)
-    // } catch (error) {
-    //   console.log("Error in getting the posts");
-    // }
   }
   getPosts();
 },[])
@@ -30,7 +25,7 @@ useEffect(()=>{
     <div className='w-full flex flex-col justify-center items-center '>
       <FeedBox/>
       {
-        posts.map((post)=><FeedPost post={post} key={post._id}/>)
+         posts.map((post,index)=><FeedPost post={post} key={index}/>)
       }
     </div>
   )

@@ -39,24 +39,36 @@ router.get("/", async (req, res) => {
       .aggregate([
         {
           $lookup: {
-            from: "answers", //collection to join
-            localField: "_id", //field from input document
+            from: "answers", // collection to join
+            localField: "_id", // field from input document
             foreignField: "questionId",
-            as: "allAnswers", //output array field
+            as: "allAnswers", // output array field
           },
         },
       ])
       .exec()
-      .then((doc) => {
-        res.status(200).send(doc);
+      .then((docs) => {
+        // Check if there are any documents returned
+        if (docs.length > 0) {
+          // Access the allAnswers field from the first document
+          const allAnswers = docs[0].allAnswers;
+          res.status(200).send(docs);
+        } else {
+          res.status(404).send({
+            status: false,
+            message: "No questions found",
+          });
+        }
       })
       .catch((error) => {
+        console.error("Aggregation error:", error);
         res.status(500).send({
           status: false,
           message: "Unable to get the question details",
         });
       });
   } catch (e) {
+    console.error("Unexpected error:", e);
     res.status(500).send({
       status: false,
       message: "Unexpected error",

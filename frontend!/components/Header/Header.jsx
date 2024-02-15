@@ -29,6 +29,7 @@ export default function Header() {
        console.log(res.data)
         if(res.data){
           setIsModalOpen(false)
+          alert("shared successfully")
           window.location.href="/"
         }
       } catch (error) {

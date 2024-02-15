@@ -7,6 +7,6 @@ const AnswerSchema = new mongoose.Schema({
     ref: "questions",
   },
   user: Object,
-});
+},{timestamps:true});
 
 module.exports = mongoose.model("Answers", AnswerSchema);
