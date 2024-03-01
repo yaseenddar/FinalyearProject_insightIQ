@@ -1,0 +1,26 @@
+.login {
+    background-size: cover; /* or contain, or any other value */
+    background-position: center; /* or any other value */
+    backdrop-filter: blur(10px);
+    /* Additional background properties */
+  }
+
+  
+  
+  .marquee-container {
+    overflow: hidden;
+  }
+
+  .loginDesc {
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+

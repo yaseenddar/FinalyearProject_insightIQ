@@ -4,7 +4,6 @@ const router = express.Router();
 const questionDB = require("../models/Question");
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
 
   try {
     await questionDB
@@ -76,4 +75,33 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+// to delete the post 
+router.delete("/:id", async (req, res) => {
+  const questionId = req.params.id;
+
+  try {
+    // Find the question by ID and delete it
+    const deletedQuestion = await questionDB.findByIdAndDelete(questionId);
+
+    if (!deletedQuestion) {
+      return res.status(404).send({
+        status: false,
+        message: "Question not found",
+      });
+    }
+
+    res.status(200).send({
+      status: true,
+      message: "Question deleted successfully",
+      deletedQuestion,
+    });
+  } catch (error) {
+    console.error("Delete error:", error);
+    res.status(500).send({
+      status: false,
+      message: "Error deleting the question",
+    });
+  }
+});
 module.exports = router;

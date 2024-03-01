@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Header/Header'
-import Widget from '../Widget/Widget'
 import Feed from '../Feed/Feed'
-import Sidebar from '../Sidebar/Sidebar'
 import './Home.css'
+import Loader from '../Pages/Loader/Loader'
+  import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
+  const [loading,setLoading] = useState(true);
+  setTimeout(()=>{
+    setLoading(false);
+    // toast("")
+  },2000)
   return (
-    <div className="home ">
+    <div className="">
     <Header />
-    <div className="contents bg-red-600 w-[100%]">
-      <div className="content  ">
-        <Sidebar />
-        <Feed />
-        <Widget />
+    <ToastContainer/>
+    <div className="">
+      <div className=" ">
+        {/* <Sidebar /> */}
+      {  loading ? < Loader/>:<Feed/>}
+        {/* <Widget /> */}
       </div>
     </div>
   </div>

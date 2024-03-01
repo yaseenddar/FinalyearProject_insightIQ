@@ -31,4 +31,22 @@ router.post("/", async (req, res) => {
   }
 });
 
+// delete teh ans
+router.delete('/:id',async (req,res)=>{
+
+  const ansId = req.params.id
+  try {
+
+    const res = await answerDB.findByIdAndDelete(ansId)
+    .then((res)=>{
+      res.status(200).send("deleted successfulley")
+      .catch((err)=>{
+        res.status(404).send("error occured in deleting answer")
+      })
+    })
+  } catch (error) {
+    
+  }
+})
+
 module.exports = router;

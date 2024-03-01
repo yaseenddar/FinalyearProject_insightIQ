@@ -1,41 +1,7 @@
-.qHeader {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    position: sticky;
-    z-index: 1000;
-    top: 0px;
-    /* box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.5); */
-    box-shadow: 2px 3px 6px rgba(187, 187, 187, 0.5);
-    justify-content: center;
-    padding: 3px;
-  }
+
   
-  .qHeader-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* padding: 5px; */
-  }
-  
-  .qHeader__logo > img {
-    height: 30px !important;
-    object-fit: contain;
-  }
-  
-  .qHeader__icons {
-    display: flex;
-  }
-  
-  .qHeader__icon {
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .qHeader__icon:hover {
-    background-color: #eee;
-    border-radius: 5px;
-  }
+
+ 
   
   .qHeader__icon > .MuiSvgIcon-root {
     color: gray;
