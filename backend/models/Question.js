@@ -6,12 +6,10 @@ const QuestionSchema = new mongoose.Schema({
     max:[500,"must be less than 500 cahracters"],
     required:true
   },
-  questionUrl: String,
-  Likes:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Like'
-  }
-  ],
+  likes: {
+    type: Array,
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

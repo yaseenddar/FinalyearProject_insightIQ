@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const questionRouter = require("./Question");
-const answerRouter = require("./Answer");
-const userAuth = require('./user');
+const questionRouter = require("../middleware/Question");
+const answerRouter = require("../middleware/Answer");
+const userAuth = require('../middleware/user');
 const path = require("path");
 
 router.get("/", (req, res) => {

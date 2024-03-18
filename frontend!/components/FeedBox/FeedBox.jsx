@@ -4,6 +4,9 @@ import './FeedBox.css'
 import { useSelector } from 'react-redux';
 export default function FeedBox() {
   const user = useSelector(state => state.user.user);
+
+
+  
   return (
     <div className='Box w-full flex'>
       <div className="info ">

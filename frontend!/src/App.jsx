@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import Home from '../components/Home/Home'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Import BrowserRouter
+import { Route, BrowserRouter as Router, Routes} from 'react-router-dom'; // Import BrowserRouter
 import Login from '../components/Auth/Login'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { login} from '../components/userSlice/userSlice'
 import Register from '../components/Auth/Register'
-import Loader from '../components/Pages/Loader/Loader';
-  import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import Profile from '../components/Pages/Profile';
+import axios from 'axios';
+import Loader from '../components/Pages/Loader/Loader';
 function App() {
 const dispatch = useDispatch();
 const user = useSelector(state => state.user);
@@ -19,13 +19,27 @@ useEffect(() => {
   setLoading(true);
   const unsubscribe = onAuthStateChanged(auth, (authUser) => {
     if (authUser) {
-      dispatch(login({
-        userName: authUser.displayName,
-        profilePicture: authUser.photoURL,
-        uid: authUser.uid,
-        googleLogin:true
-      }));
-      console.log("Auth user", authUser);
+      const createuser=async()=>{
+        try {
+          const body = {
+            userName: authUser.displayName,
+            userEmail: authUser.email,
+            password: "123456",
+            profilePicture: authUser.photoURL,
+            googleLogin:true,
+          };
+          const res = await axios.post("/api/auth/register", body);
+          // console.log("login response", res.data);
+             
+      dispatch(login(res.data.existingUser));
+          // navigate('/');      
+        } catch (error) {
+          alert("error occured");
+          console.log("error is", error);
+        }
+      }
+      createuser();
+
     }
   });
   setLoading(false);
@@ -34,13 +48,12 @@ useEffect(() => {
     unsubscribe(); // Unsubscribe from the event listener
   };
 }, []); // Empty dependency array to run the effect only once
-console.log("user in app",user)
   return (
     <Router>
       <Routes>
       <Route  exact path='/' element={ user.user ? <Home/>: <Login/>}/>
       <Route path='/login' element={user.user ? <Home/>: <Login/>}/>
-      <Route path='/profile' element={user.user ? <Profile/>: <Login/>}/>
+      <Route path='/profile/:id' element={user.user ? <Profile/>: <Login/>}/>
       <Route path='/register' element={<Register/>}/>
       </Routes>
      

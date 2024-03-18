@@ -20,7 +20,7 @@ export default function Register() {
 			googleLogin:false
 		};
         if (password.current.value !== confirmpassword.current.value) {
-            password.current.setCustomValidity("password don't match");
+           alert("password don't match");
         }else{
         	
 			if (image) {
@@ -40,7 +40,11 @@ export default function Register() {
 
         	await axios.post('/api/auth/register',body)
 			.then((res)=>{
-				console.log("user created",res);
+				// console.log("user created",res);
+				const token = res.data.token;
+				localStorage.setItem('token', token);
+
+
 				navigate('/login');
 			})
 			.catch((err)=>{
