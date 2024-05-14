@@ -6,6 +6,10 @@ const answerRouter = require("../middleware/Answer");
 const userAuth = require('../middleware/user');
 const path = require("path");
 
+const userRoutes = require("./userRoutes");
+const chatRoutes = require("./chatRoutes");
+const messageRoutes = require("./messageRoutes");
+const { notFound, errorHandler } = require("../middleware/errorMiddleware");
 router.get("/", (req, res) => {
   res.send("This api is reserved ");
 });
@@ -35,5 +39,8 @@ router.use("/questions", questionRouter);
 router.use("/answers", answerRouter);
 router.use("/auth", userAuth);
 
+router.use("/users", userRoutes);
+router.use("/chat", chatRoutes);
+router.use("/message", messageRoutes);
 
 module.exports = router;

@@ -21,6 +21,6 @@ if(!authorization) res.status(401).json({error:" Token not found"})
 }
 
 const generateToken = (userData) =>{
-    return jwt.sign(userData,process.env.JWT_SECRET,{expiresIn:30000});
+    return jwt.sign(userData,process.env.JWT_SECRET,{expiresIn:"8d"});
 }
 module.exports = {jwtAuthMiddleware,generateToken};
